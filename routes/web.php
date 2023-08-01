@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::group([
+    'prefix' => 'message'
+], function () {
+    Route::get('/get', [MessageController::class, 'getMessage']);
+    Route::post('/create', [MessageController::class, 'createMessage']);
+    Route::match(['PUT', 'PATCH'], '/update', [MessageController::class, 'updateMessage']);
+    Route::delete('/delete', [MessageController::class, 'deleteMessage']);
 });
