@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\Payments\PaypalController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,4 +26,12 @@ Route::group([
     Route::post('/create', [MessageController::class, 'createMessage']);
     Route::match(['PUT', 'PATCH'], '/update', [MessageController::class, 'updateMessage']);
     Route::delete('/delete', [MessageController::class, 'deleteMessage']);
+});
+
+Route::group([
+    'prefix' => 'payments',
+    'as' => 'payments.'
+], function () {
+    Route::get('/paypal', [PaypalController::class, 'index'])->name('paypal');
+    Route::post('/paypal/checkout_validate', [PaypalController::class, 'checkoutValidate']);
 });
