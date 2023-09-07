@@ -32,6 +32,6 @@ Route::group([
     'prefix' => 'payments',
     'as' => 'payments.'
 ], function () {
-    Route::get('/paypal', [PaypalController::class, 'index'])->name('paypal');
+    Route::get('/paypal/checkout', [PaypalController::class, 'index'])->name('paypal.checkout');
     Route::post('/paypal/checkout_validate', [PaypalController::class, 'checkoutValidate']);
 });
