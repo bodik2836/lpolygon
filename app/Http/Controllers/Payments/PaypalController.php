@@ -24,7 +24,7 @@ class PaypalController extends Controller
             'currency' => 'USD'
         ];
 
-        return view('payments.paypal', compact('data', 'product'));
+        return view('payments.paypal.checkout', compact('data', 'product'));
     }
 
     public function checkoutValidate()
