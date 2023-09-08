@@ -75,7 +75,7 @@
                                 .then((result) => {
                                     if ( result.status == 1 ) {
                                         console.log(result)
-                                        // window.location.href = "payment-status.php?checkout_ref_id="+result.ref_id;
+                                        window.location.href = window.location.origin + "/payments/paypal/status/" + result.ref_id;
                                     } else {
                                         console.log(result);
                                     }
