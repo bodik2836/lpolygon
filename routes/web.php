@@ -33,5 +33,6 @@ Route::group([
     'as' => 'payments.'
 ], function () {
     Route::get('/paypal/checkout', [PaypalController::class, 'index'])->name('paypal.checkout');
+    Route::get('/paypal/status/{refId?}', [PaypalController::class, 'status'])->name('paypal.status');
     Route::post('/paypal/checkout_validate', [PaypalController::class, 'checkoutValidate']);
 });
