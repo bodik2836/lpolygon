@@ -20,7 +20,8 @@ Route::get('/', function () {
 });
 
 Route::group([
-    'prefix' => 'message'
+    'prefix' => 'message',
+    'middleware' => ['version']
 ], function () {
     Route::get('/get', [MessageController::class, 'getMessage']);
     Route::post('/create', [MessageController::class, 'createMessage']);
