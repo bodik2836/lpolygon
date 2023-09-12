@@ -3,6 +3,7 @@
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Payments\PaypalController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LocalizationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/localization/{lang}', [LocalizationController::class, 'changeLocale'])->name('localization');
 
 Route::group([
     'prefix' => 'message',
