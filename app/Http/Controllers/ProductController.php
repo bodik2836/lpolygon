@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Product\ProductStoreRequest;
+use App\Http\Resources\Product\ProductCollection;
+use App\Http\Resources\Product\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -11,24 +13,29 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): ProductCollection
     {
         $products = Product::all();
 
-        return response()->json($products);
+        return new ProductCollection($products);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductStoreRequest $request): string
+    public function store(ProductStoreRequest $request)
     {
         $data = $request->validated();
 
         $product = new Product($data);
-        $product->save();
 
-        return $product->toJson();
+        if ($product->save()) {
+            return new ProductResource($product);
+        }
+
+        return response()->json([
+            'message' => 'Item not saved. Something went wrong.'
+        ]);
     }
 
     /**
@@ -36,7 +43,15 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        return Product::query()->find($id);
+        $product = Product::query()->find($id);
+
+        if ($product) {
+            return new ProductResource($product);
+        }
+
+        return response()->json([
+            'message' => 'Item not found.'
+        ]);
     }
 
     /**
@@ -44,10 +59,17 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $product = Product::query()->find($id);
-        $product->update($request->all());
+        $data = $request->all();
 
-        return $product;
+        $product = Product::query()->find($id);
+
+        if ($product->update($data)) {
+            return new ProductResource($product);
+        }
+
+        return response()->json([
+            'message' => 'Item not updated.'
+        ]);
     }
 
     /**
